@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as ormOptions from './config/orm';
 import RepoModule from './repo.module';
 import { UserResolver } from './resolvers/user.resolver';
+import { MessagesResolver } from './resolvers/message.resolver';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { UserResolver } from './resolvers/user.resolver';
     }),
   ],
   controllers: [],
-  providers: [UserResolver],
+  providers: [UserResolver, MessagesResolver],
 })
 export class AppModule {}
