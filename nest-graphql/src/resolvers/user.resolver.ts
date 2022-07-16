@@ -1,4 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UpdateResult } from 'typeorm';
 import User from '../db/models/user.entity';
 import RepoService from '../repo.service';
 import { UserInput } from './inputs/user.input';
@@ -19,5 +20,18 @@ export class UserResolver {
     );
 
     return user;
+  }
+
+  @Mutation(() => User)
+  public async softDeleteUser(@Args('id') id: string): Promise<string> {
+    const user = await this.repoService.userRepo.findOne({
+      where: { id },
+    });
+
+    const stringDeleted = 'Usuário desativado com sucesso';
+    const stringNotDeleted = 'Não foi possível deletar o usuário';
+
+    const softDelete = await this.repoService.userRepo.softDelete(user.id);
+    return softDelete.affected === 1 ? stringDeleted : stringNotDeleted;
   }
 }

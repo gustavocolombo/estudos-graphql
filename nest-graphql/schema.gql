@@ -8,6 +8,7 @@ type User {
   email: String!
   created_at: DateTime!
   updated_at: DateTime!
+  deleted_at: DateTime!
 }
 
 """
@@ -29,12 +30,16 @@ type Query {
   users: [User!]!
   getMessages: [Messages!]!
   getMessagesWithMoreLikes: [Messages!]!
+  getMessageByUser(id: String!): [Messages!]!
+  getMessagesWithMoreLikesByUser(id: String!): [Messages!]!
 }
 
 type Mutation {
   createUser(data: UserInput!): User!
+  softDeleteUser(id: String!): User!
   createMessage(data: MessagesInput!): Messages!
   addLikeMessage(id: String!): Messages!
+  deleteMessage(id: String!): Boolean!
 }
 
 input UserInput {
