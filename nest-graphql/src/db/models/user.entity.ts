@@ -2,6 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -29,4 +30,8 @@ export default class User {
   @Field()
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Field()
+  @DeleteDateColumn({ nullable: true, name: 'deleted_at' })
+  deleted_at: Date;
 }
