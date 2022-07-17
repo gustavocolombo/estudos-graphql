@@ -9,6 +9,7 @@ type User {
   created_at: DateTime!
   updated_at: DateTime!
   deleted_at: DateTime!
+  messagesAlreadyCreatedByMe: [Messages!]!
 }
 
 """
@@ -24,6 +25,8 @@ type Messages {
   user_id: User!
   created_at: DateTime!
   updated_at: DateTime!
+  getUserAtCreateMessage: User!
+  messagesAlreadyCreatedByUser: Messages!
 }
 
 type Query {
@@ -51,4 +54,8 @@ input MessagesInput {
   title: String!
   content: String!
   user_id: String!
+}
+
+type Subscription {
+  messageAdded: Messages!
 }

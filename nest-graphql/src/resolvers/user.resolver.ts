@@ -1,10 +1,17 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { UpdateResult } from 'typeorm';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
+import Messages from '../db/models/messages.entity';
 import User from '../db/models/user.entity';
 import RepoService from '../repo.service';
 import { UserInput } from './inputs/user.input';
 
-@Resolver()
+@Resolver(() => User)
 export class UserResolver {
   constructor(private readonly repoService: RepoService) {}
 
@@ -33,5 +40,12 @@ export class UserResolver {
 
     const softDelete = await this.repoService.userRepo.softDelete(user.id);
     return softDelete.affected === 1 ? stringDeleted : stringNotDeleted;
+  }
+
+  @ResolveField(() => [Messages], { name: 'messagesAlreadyCreatedByMe' })
+  public async getMessagesByUser(@Parent() parent: User): Promise<Messages[]> {
+    return await this.repoService.messageRepo.find({
+      where: { user_id: parent.id },
+    });
   }
 }
