@@ -10,4 +10,5 @@ export interface CrudPatientInterface<T> {
   findByHealthCard(healthNumberCard: string): Promise<Patient | undefined>;
   update(id: string, data: UpdatePatientInput): Promise<UpdateResult>;
   changeStatus(id: string, status: StatusUser): Promise<UpdateResult>;
+  findByEmail(email: string): Promise<Patient>;
 }

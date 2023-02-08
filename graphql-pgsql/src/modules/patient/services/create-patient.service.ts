@@ -15,14 +15,18 @@ export class CreatePatientService {
     socialNumber,
     email,
     password,
+    address,
   }: CreatePatientInput): Promise<Patient> {
-    const patient = await this.patientRepository.findByHealthCard(
+    const checkPatientHealtCard = await this.patientRepository.findByHealthCard(
       healthNumberCard,
     );
 
-    if (patient) throw new BadRequestException('Patient already registered');
+    const checkPatientEmail = await this.patientRepository.findByEmail(email);
 
-    const newPatient = await this.patientRepository.create({
+    if (checkPatientHealtCard || checkPatientEmail)
+      throw new BadRequestException('Patient already registered');
+
+    const patient = await this.patientRepository.create({
       firstName,
       lastName,
       age,
@@ -30,8 +34,9 @@ export class CreatePatientService {
       socialNumber,
       email,
       password,
+      address,
     });
 
-    return newPatient;
+    return patient;
   }
 }

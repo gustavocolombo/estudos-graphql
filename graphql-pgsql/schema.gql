@@ -31,4 +31,14 @@ input CreatePatientInput {
   password: String!
   socialNumber: String!
   healthNumberCard: String!
+  address: CreateAddressInput!
+}
+
+"""Data required to create an address"""
+input CreateAddressInput {
+  state: String!
+  city: String!
+  number: Float!
+  zipCode: String!
+  neighbourhood: String!
 }

@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { CreateAddressInput } from '../../address/inputs/create-address.input';
 
 @InputType({
   description: 'Data required to create a patient',
@@ -24,4 +25,7 @@ export class CreatePatientInput {
 
   @Field()
   healthNumberCard: string;
+
+  @Field()
+  address: CreateAddressInput;
 }

@@ -13,7 +13,6 @@ export class PatientRepository implements CrudPatientInterface<Patient> {
 
   async create(data: CreatePatientInput): Promise<Patient> {
     try {
-      console.log('entrando');
       const patient = this.patientRepository.create(data);
 
       await this.patientRepository.save(patient);
@@ -58,6 +57,18 @@ export class PatientRepository implements CrudPatientInterface<Patient> {
     try {
       const patient = await this.patientRepository.findOne({
         where: { healthNumberCard },
+      });
+
+      return patient;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async findByEmail(email: string): Promise<Patient> {
+    try {
+      const patient = await this.patientRepository.findOne({
+        where: { email },
       });
 
       return patient;
